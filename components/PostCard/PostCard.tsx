@@ -7,23 +7,26 @@ interface PostCardProps {
     title: string;
     body: string;
     user_name: string;
-    avatar_url: string;
+    avatar_url?: string;
   };
   postlink: Href;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
+  const defaultAvatar =
+    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg";
+
   return (
     <Link href={postlink} asChild>
       <TouchableOpacity style={styles.card}>
         <Image
           source={{
-            uri: post.avatar_url,
+            uri: post.avatar_url || defaultAvatar,
           }}
           style={styles.avatar}
         />
         <View style={styles.content}>
-          <Text style={styles.userName}>{post?.user_name}</Text>
+          <Text style={styles.userName}>{post.user_name}</Text>
           <Text style={styles.title}>{post.title}</Text>
           <Text style={styles.body}>{post.body}</Text>
         </View>
@@ -35,6 +38,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
 const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
+    alignItems: "flex-start",
     padding: 10,
     backgroundColor: "#fff",
     marginVertical: 8,
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    marginTop: 15,
   },
   content: {
     marginLeft: 10,

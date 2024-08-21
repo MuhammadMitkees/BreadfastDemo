@@ -1,18 +1,24 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 
 interface CommentCardProps {
   comment: {
     name: string;
     body: string;
-    avatar: string;
+    avatar?: string;
   };
 }
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
+  const defaultAvatar =
+    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg";
+
   return (
     <View style={styles.card}>
-      <Image source={{ uri: comment.avatar }} style={styles.avatar} />
+      <Image
+        source={{ uri: comment.avatar || defaultAvatar }} // Use default avatar if comment.avatar is empty
+        style={styles.avatar}
+      />
       <View style={styles.content}>
         <Text style={styles.name}>{comment.name}</Text>
         <Text style={styles.body}>{comment.body}</Text>
@@ -23,9 +29,9 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginVertical: 8,
     borderRadius: 8,
   },
@@ -40,7 +46,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   body: {
     fontSize: 14,
