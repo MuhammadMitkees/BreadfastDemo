@@ -7,12 +7,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import CommentCard from "../../../components/CommentCard/CommentCard";
-import { getComments, getPostById } from "../../../services/api";
+import { getComments, getPostById, getUserById } from "../../../services/api";
 import { useLocalSearchParams } from "expo-router";
 
 const PostDetailsScreen: React.FC = () => {
   const [comments, setComments] = useState<any[]>([]);
   const [post, setPost] = useState<any>({});
+  const [user, setUser] = useState<any>({});
   const [loadingPost, setLoadingPost] = useState<boolean>(true);
   const [loadingComments, setLoadingComments] = useState<boolean>(true);
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -27,13 +28,23 @@ const PostDetailsScreen: React.FC = () => {
       }
     }
   };
-
+  const fetchUser = async (userId: number) => {
+    if (id) {
+      try {
+        const data = await getUserById(userId);
+        setUser(data);
+      } finally {
+        setLoadingPost(false);
+      }
+    }
+  };
   const fetchPost = async () => {
     if (id) {
       try {
         const data = await getPostById(id);
         setPost(data);
       } finally {
+        fetchUser(post.user_id);
         setLoadingPost(false);
       }
     }
@@ -54,6 +65,7 @@ const PostDetailsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.userName}>{user?.user_name || "Unknown User"}</Text>
       <Text style={styles.title}>{post?.title}</Text>
       <Text style={styles.body}>{post?.body}</Text>
       <FlatList
@@ -73,6 +85,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#F7F6F9",
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 4,
+    color: "#333333",
   },
   title: {
     fontSize: 24,
