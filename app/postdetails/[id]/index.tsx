@@ -1,28 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import CommentCard from "../../../components/CommentCard/CommentCard";
 import { getComments, getPostById } from "../../../services/api";
 import { useLocalSearchParams } from "expo-router";
 
 const PostDetailsScreen: React.FC = () => {
-  //   const { post } = route.params;
   const [comments, setComments] = useState<any[]>([]);
-  const [post, setPost] = useState<any[]>([]);
+  const [post, setPost] = useState<any>({});
+  const [loadingPost, setLoadingPost] = useState<boolean>(true);
+  const [loadingComments, setLoadingComments] = useState<boolean>(true);
   const { id } = useLocalSearchParams<{ id: string }>();
+
   const fetchComments = async () => {
-    const data = await getComments(id);
-    setComments(data);
-  };
-  const fetchPost = async () => {
     if (id) {
-      const data = await getPostById(id);
-      setPost(data);
+      try {
+        const data = await getComments(id);
+        setComments(data);
+      } finally {
+        setLoadingComments(false);
+      }
     }
   };
+
+  const fetchPost = async () => {
+    if (id) {
+      try {
+        const data = await getPostById(id);
+        setPost(data);
+      } finally {
+        setLoadingPost(false);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchComments();
     fetchPost();
   }, [id]);
+
+  if (loadingPost || loadingComments) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -50,6 +78,11 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     marginVertical: 10,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
