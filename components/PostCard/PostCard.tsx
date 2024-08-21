@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Href, Link } from "expo-router";
+import { getUserById } from "@/services/api";
+
 interface PostCardProps {
   post: {
     id: number;
+    user_id: number;
     title: string;
     body: string;
     user_name: string;
@@ -13,8 +16,24 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
+  const [userName, setUserName] = useState<string>("Unknown user");
   const defaultAvatar =
     "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg";
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const userDetails = await getUserById(post.user_id);
+        if (userDetails) {
+          setUserName(userDetails.name || "Unknown user");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [post.user_id]);
 
   return (
     <Link href={postlink} asChild>
@@ -26,7 +45,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
           style={styles.avatar}
         />
         <View style={styles.content}>
-          <Text style={styles.userName}>{post.user_name}</Text>
+          <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.title}>{post.title}</Text>
           <Text style={styles.body}>{post.body}</Text>
         </View>

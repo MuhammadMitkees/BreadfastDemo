@@ -32,7 +32,7 @@ const Index: React.FC = () => {
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="black" />
+        <ActivityIndicator size="large" color="#6C63FF" />
       </View>
     );
   }

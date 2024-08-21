@@ -15,3 +15,7 @@ export const getPostById = async (postId: string) => {
   const response = await axios.get(`${API_URL}/posts/${postId}`);
   return response.data;
 };
+export const getUserById = async (userId: number) => {
+  const response = await axios.get(`${API_URL}/users/${userId}`);
+  return response.data;
+};

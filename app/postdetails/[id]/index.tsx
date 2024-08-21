@@ -47,7 +47,7 @@ const PostDetailsScreen: React.FC = () => {
   if (loadingPost || loadingComments) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#000" />
+        <ActivityIndicator size="large" color="#6C63FF" />
       </View>
     );
   }
@@ -60,6 +60,9 @@ const PostDetailsScreen: React.FC = () => {
         data={comments}
         renderItem={({ item }) => <CommentCard comment={item} />}
         keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={
+          <Text style={styles.noComments}>No comments yet</Text>
+        }
       />
     </View>
   );
@@ -69,20 +72,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: "#F7F6F9",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
+    color: "#333333",
   },
   body: {
     fontSize: 16,
     marginVertical: 10,
+    color: "#333333",
   },
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F7F6F9",
+  },
+  noComments: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#9FA8DA",
+    marginTop: 20,
   },
 });
 
