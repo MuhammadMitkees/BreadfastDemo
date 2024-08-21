@@ -6,6 +6,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient"; // Use expo-linear-gradient instead
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import PostCard from "../components/PostCard/PostCard";
 import { getPosts } from "../services/api";
 import colors from "../utils/theme"; // Import the theme
@@ -27,7 +29,9 @@ const Index: React.FC = () => {
   }, []);
 
   const renderItem = ({ item }: { item: any }) => (
-    <PostCard post={item} postlink={`/postdetails/${item.id}`} />
+    <Animated.View entering={FadeIn} exiting={FadeOut}>
+      <PostCard post={item} postlink={`/postdetails/${item.id}`} />
+    </Animated.View>
   );
 
   if (loading) {
@@ -39,14 +43,18 @@ const Index: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[colors.primary, colors.secondary]}
+      style={styles.container}
+    >
       <Text style={styles.title}>Posts</Text>
       <FlatList
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.contentContainer}
       />
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -54,13 +62,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: colors.background, // Use the background color from the theme
+  },
+  contentContainer: {
+    paddingBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32, // Increased font size for a more prominent title
     fontWeight: "bold",
-    marginBottom: 10,
-    color: colors.textPrimary, // Use the primary text color from the theme
+    marginBottom: 20,
+    color: colors.surface, // Text color to contrast with gradient background
+    textAlign: "center", // Centered title
+    textShadowColor: colors.accent, // Text shadow for a glowing effect
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10,
   },
   loaderContainer: {
     flex: 1,

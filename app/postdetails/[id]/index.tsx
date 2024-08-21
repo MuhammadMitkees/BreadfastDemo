@@ -6,6 +6,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import CommentCard from "../../../components/CommentCard/CommentCard";
 import { getComments, getPostById, getUserById } from "../../../services/api";
 import { useLocalSearchParams } from "expo-router";
@@ -67,55 +69,106 @@ const Index: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.userName}>{user?.user_name || "Unknown User"}</Text>
-      <Text style={styles.title}>{post?.title}</Text>
-      <Text style={styles.body}>{post?.body}</Text>
+    <LinearGradient
+      colors={[colors.primary, colors.secondary]}
+      style={styles.container}
+    >
+      <Animated.Text
+        style={styles.userName}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        {user?.user_name || "Unknown User"}
+      </Animated.Text>
+      <Animated.Text style={styles.title} entering={FadeIn} exiting={FadeOut}>
+        {post?.title}
+      </Animated.Text>
+      <Animated.Text style={styles.body} entering={FadeIn} exiting={FadeOut}>
+        {post?.body}
+      </Animated.Text>
+
+      {/* Comments Section Indication */}
+      <Animated.Text
+        style={styles.commentsHeader}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        Comments
+      </Animated.Text>
+      <View style={styles.divider} />
+
       <FlatList
         data={comments}
-        renderItem={({ item }) => <CommentCard comment={item} />}
+        renderItem={({ item }) => (
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
+            <CommentCard comment={item} />
+          </Animated.View>
+        )}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={
           <Text style={styles.noComments}>No comments yet</Text>
         }
       />
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: colors.background, // Use the background color from the theme
+    padding: 20,
   },
   userName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
-    marginBottom: 4,
-    color: colors.textPrimary, // Use the primary text color from the theme
+    marginBottom: 8,
+    color: colors.surface,
+    textAlign: "center",
+    textShadowColor: colors.accent,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    marginVertical: 10,
-    color: colors.textPrimary, // Use the primary text color from the theme
+    marginVertical: 12,
+    color: colors.surface,
+    textAlign: "center",
+    textShadowColor: colors.accent,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
   },
   body: {
-    fontSize: 16,
+    fontSize: 18,
     marginVertical: 10,
-    color: colors.textPrimary, // Use the primary text color from the theme
+    color: colors.surface,
+    textAlign: "center",
+  },
+  commentsHeader: {
+    fontSize: 22,
+    fontWeight: "700",
+    marginTop: 20,
+    color: colors.surface,
+    textAlign: "left",
+    textShadowColor: colors.accent,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.accent,
+    marginVertical: 10,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.background, // Use the background color from the theme
+    backgroundColor: colors.background,
   },
   noComments: {
     textAlign: "center",
     fontSize: 16,
-    color: colors.secondary, // Use the secondary color from the theme
+    color: colors.surface,
     marginTop: 20,
   },
 });

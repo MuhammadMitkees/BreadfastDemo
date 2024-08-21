@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Href, Link } from "expo-router";
+import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
+import { Href } from "expo-router";
 import { getUserById } from "@/services/api";
 import colors from "../../utils/theme"; // Import the theme
-
+import { router } from "expo-router";
 interface PostCardProps {
   post: {
     id: number;
@@ -37,21 +38,26 @@ const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
   }, [post.user_id]);
 
   return (
-    <Link href={postlink} asChild>
-      <TouchableOpacity style={styles.card}>
-        <Image
-          source={{
-            uri: post.avatar_url || defaultAvatar,
-          }}
-          style={styles.avatar}
-        />
-        <View style={styles.content}>
-          <Text style={styles.userName}>{userName}</Text>
-          <Text style={styles.title}>{post.title}</Text>
-          <Text style={styles.body}>{post.body}</Text>
-        </View>
-      </TouchableOpacity>
-    </Link>
+    <Animated.View
+      entering={ZoomIn}
+      exiting={ZoomOut}
+      style={styles.card}
+      onTouchEnd={() => {
+        router.navigate(postlink);
+      }}
+    >
+      <Image
+        source={{
+          uri: post.avatar_url || defaultAvatar,
+        }}
+        style={styles.avatar}
+      />
+      <View style={styles.content}>
+        <Text style={styles.userName}>{userName}</Text>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.body}>{post.body}</Text>
+      </View>
+    </Animated.View>
   );
 };
 
@@ -60,14 +66,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     padding: 10,
-    backgroundColor: colors.surface, // Use the surface color from the theme
+    backgroundColor: colors.surface,
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 12,
     shadowColor: colors.shadowColor || "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 6,
+    elevation: 4,
   },
   avatar: {
     width: 50,
@@ -82,18 +88,18 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.textPrimary, // Use the primary text color from the theme
+    color: colors.textPrimary,
   },
   title: {
     fontSize: 14,
     fontWeight: "600",
     marginTop: 4,
-    color: colors.textSecondary, // Use the secondary text color from the theme
+    color: colors.textSecondary,
   },
   body: {
     fontSize: 12,
     marginTop: 4,
-    color: colors.textSecondary, // Use the secondary text color from the theme
+    color: colors.textSecondary,
   },
 });
 
