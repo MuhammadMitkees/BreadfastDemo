@@ -8,10 +8,11 @@ import {
 } from "react-native";
 import PostCard from "../components/PostCard/PostCard";
 import { getPosts } from "../services/api";
+import colors from "../utils/theme"; // Import the theme
 
 const Index: React.FC = () => {
   const [posts, setPosts] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // State to manage loading
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -19,7 +20,7 @@ const Index: React.FC = () => {
         const data = await getPosts();
         setPosts(data);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     }
     fetchPosts();
@@ -32,7 +33,7 @@ const Index: React.FC = () => {
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#6C63FF" />
+        <ActivityIndicator size="large" color={colors.loader} />
       </View>
     );
   }
@@ -53,11 +54,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: colors.background, // Use the background color from the theme
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   loaderContainer: {
     flex: 1,

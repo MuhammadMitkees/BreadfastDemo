@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import colors from "../../utils/theme"; // Import the theme
 
 interface CommentCardProps {
   comment: {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface, // Use the surface color from the theme
     marginVertical: 8,
     borderRadius: 8,
   },
@@ -47,10 +48,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: "bold",
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   body: {
     fontSize: 14,
     marginTop: 5,
+    color: colors.textSecondary, // Use the secondary text color from the theme
   },
 });
 

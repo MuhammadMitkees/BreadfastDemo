@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Href, Link } from "expo-router";
 import { getUserById } from "@/services/api";
+import colors from "../../utils/theme"; // Import the theme
 
 interface PostCardProps {
   post: {
@@ -59,10 +60,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface, // Use the surface color from the theme
     marginVertical: 8,
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: colors.shadowColor || "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
@@ -81,15 +82,18 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: "bold",
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   title: {
     fontSize: 14,
     fontWeight: "600",
     marginTop: 4,
+    color: colors.textSecondary, // Use the secondary text color from the theme
   },
   body: {
     fontSize: 12,
     marginTop: 4,
+    color: colors.textSecondary, // Use the secondary text color from the theme
   },
 });
 

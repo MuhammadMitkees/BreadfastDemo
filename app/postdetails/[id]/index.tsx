@@ -9,14 +9,20 @@ import {
 import CommentCard from "../../../components/CommentCard/CommentCard";
 import { getComments, getPostById, getUserById } from "../../../services/api";
 import { useLocalSearchParams } from "expo-router";
+import colors from "../../../utils/theme"; // Import the theme
 
-const PostDetailsScreen: React.FC = () => {
+const Index: React.FC = () => {
   const [comments, setComments] = useState<any[]>([]);
   const [post, setPost] = useState<any>({});
   const [user, setUser] = useState<any>({});
   const [loadingPost, setLoadingPost] = useState<boolean>(true);
   const [loadingComments, setLoadingComments] = useState<boolean>(true);
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  useEffect(() => {
+    fetchComments();
+    fetchPost();
+  }, [id]);
 
   const fetchComments = async () => {
     if (id) {
@@ -28,6 +34,7 @@ const PostDetailsScreen: React.FC = () => {
       }
     }
   };
+
   const fetchUser = async (userId: number) => {
     if (id) {
       try {
@@ -38,6 +45,7 @@ const PostDetailsScreen: React.FC = () => {
       }
     }
   };
+
   const fetchPost = async () => {
     if (id) {
       try {
@@ -50,15 +58,10 @@ const PostDetailsScreen: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchComments();
-    fetchPost();
-  }, [id]);
-
   if (loadingPost || loadingComments) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#6C63FF" />
+        <ActivityIndicator size="large" color={colors.loader} />
       </View>
     );
   }
@@ -84,37 +87,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#F7F6F9",
+    backgroundColor: colors.background, // Use the background color from the theme
   },
   userName: {
     fontSize: 18,
     fontWeight: "600",
     marginBottom: 4,
-    color: "#333333",
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "#333333",
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   body: {
     fontSize: 16,
     marginVertical: 10,
-    color: "#333333",
+    color: colors.textPrimary, // Use the primary text color from the theme
   },
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F7F6F9",
+    backgroundColor: colors.background, // Use the background color from the theme
   },
   noComments: {
     textAlign: "center",
     fontSize: 16,
-    color: "#9FA8DA",
+    color: colors.secondary, // Use the secondary color from the theme
     marginTop: 20,
   },
 });
 
-export default PostDetailsScreen;
+export default Index;
