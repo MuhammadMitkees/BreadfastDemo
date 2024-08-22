@@ -2,15 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 import colors from "../../utils/theme"; // Import the theme
-
-interface CommentCardProps {
-  comment: {
-    name: string;
-    body: string;
-    avatar?: string;
-  };
-}
-
+import { CommentCardProps } from "@/utils/types";
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const defaultAvatar =
     "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg";
