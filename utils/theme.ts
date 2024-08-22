@@ -9,6 +9,7 @@ const colors = {
   loader: "#6C63FF", // Loader color
   placeholder: "#AAAAAA", // Placeholder color for text inputs, etc.
   borderColor: "#E0E0E0", // Border color for components
+  shadowColor: "#000000",
 };
 
 export default colors;
