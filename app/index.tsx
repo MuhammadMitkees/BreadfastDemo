@@ -53,6 +53,9 @@ const Index: React.FC = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.contentContainer}
+        ListEmptyComponent={
+          <Text style={styles.noPostsText}>No posts yet</Text>
+        } // Render this when posts array is empty
       />
     </LinearGradient>
   );
@@ -65,6 +68,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingBottom: 20,
+    flexGrow: 1, // Ensure the "No posts yet" message is centered vertically
+    justifyContent: "center", // Center the content when there's no data
   },
   title: {
     fontSize: 32, // Increased font size for a more prominent title
@@ -80,6 +85,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  noPostsText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: colors.surface,
+    textAlign: "center",
   },
 });
 
