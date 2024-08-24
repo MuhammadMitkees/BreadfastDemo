@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import PostCard from "../components/PostCard/PostCard";
@@ -15,26 +16,41 @@ import { LinearGradient } from "expo-linear-gradient";
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [paginationPage, setPaginationPage] = useState<number>(1);
+  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
+  const postPerPage = 10;
+
+  async function fetchPosts() {
+    try {
+      const data = await getPosts(paginationPage, postPerPage);
+      if (paginationPage === 1) {
+        setPosts(data);
+      } else {
+        setPosts((prevPosts) => [...prevPosts, ...data]);
+      }
+    } finally {
+      setLoading(false);
+      setIsFetchingMore(false);
+    }
+  }
 
   useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const data = await getPosts();
-        setPosts(data);
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchPosts();
-  }, []);
-
+  }, [paginationPage]);
   const renderItem = ({ item }: { item: any }) => (
     <Animated.View entering={FadeIn} exiting={FadeOut}>
       <PostCard post={item} postlink={`/postdetails/${item.id}`} />
     </Animated.View>
   );
 
-  if (loading) {
+  const handleLoadMore = () => {
+    if (!isFetchingMore) {
+      setIsFetchingMore(true);
+      setPaginationPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  if (loading && paginationPage === 1) {
     return (
       <View style={styles.loaderContainer}>
         <ActivityIndicator size="large" color={colors.loader} />
@@ -47,17 +63,25 @@ const Home: React.FC = () => {
       colors={[colors.primary, colors.secondary]}
       style={styles.container}
     >
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>Posts</Text>
         <FlatList
           data={posts}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id}
           ListEmptyComponent={
             <Text style={styles.noPostsText}>No posts yet</Text>
           }
+          onEndReached={() => {
+            handleLoadMore();
+          }}
+          ListFooterComponent={
+            isFetchingMore ? (
+              <ActivityIndicator size="small" color={colors.loader} />
+            ) : null
+          }
         />
-      </View>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -82,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent", // Ensure loader container is transparent
+    backgroundColor: "transparent",
   },
   noPostsText: {
     fontSize: 24,

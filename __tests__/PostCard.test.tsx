@@ -1,31 +1,27 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react-native";
-import PostCard from "./PostCard";
+import PostCard from "../components/PostCard/PostCard";
 import { getUserById } from "@/services/api";
+import { expect } from "@jest/globals";
 
-// Mock the API call
-jest.mock("@/services/api", () => ({
-  getUserById: jest.fn(),
-}));
+jest.mock("@/services/api");
 
 const mockPost = {
   id: 1,
   user_id: 1,
   title: "Test Post",
   body: "This is a test post body",
-  user_name: "Test User",
   avatar_url: "",
+  user_name: "",
 };
 
 test("renders correctly with given post data", async () => {
-  // Mock implementation of getUserById to return a specific user name
   (getUserById as jest.Mock).mockResolvedValue({ name: "Test User" });
 
   const { getByText } = render(
     <PostCard post={mockPost} postlink="/postdetails/1" />
   );
 
-  // Use waitFor to wait for the async update
   await waitFor(() => {
     expect(getByText("Test User")).toBeTruthy();
   });

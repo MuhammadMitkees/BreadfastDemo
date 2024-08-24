@@ -11,7 +11,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import CommentCard from "../../../components/CommentCard/CommentCard";
 import { getComments, getPostById, getUserById } from "../../../services/api";
 import { useLocalSearchParams } from "expo-router";
-import colors from "../../../utils/theme"; // Import the theme
+import colors from "../../../utils/theme";
 
 const Index: React.FC = () => {
   const [comments, setComments] = useState<any[]>([]);
@@ -25,7 +25,6 @@ const Index: React.FC = () => {
     fetchComments();
     fetchPost();
   }, [id]);
-
   const fetchComments = async () => {
     if (id) {
       try {
@@ -38,7 +37,7 @@ const Index: React.FC = () => {
   };
 
   const fetchUser = async (userId: number) => {
-    if (id) {
+    if (userId) {
       try {
         const data = await getUserById(userId);
         setUser(data);
@@ -50,12 +49,12 @@ const Index: React.FC = () => {
 
   const fetchPost = async () => {
     if (id) {
+      const data = await getPostById(id);
       try {
-        const data = await getPostById(id);
         setPost(data);
-      } finally {
-        fetchUser(post.user_id);
-        setLoadingPost(false);
+        fetchUser(data.user_id);
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -78,7 +77,7 @@ const Index: React.FC = () => {
         entering={FadeIn}
         exiting={FadeOut}
       >
-        {user?.user_name || "Unknown User"}
+        {user.name || "Unknown User"}
       </Animated.Text>
       <Animated.Text style={styles.title} entering={FadeIn} exiting={FadeOut}>
         {post?.title}

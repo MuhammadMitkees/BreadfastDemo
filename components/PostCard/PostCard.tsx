@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import { getUserById } from "@/services/api";
-import colors from "../../utils/theme"; // Import the theme
+import colors from "../../utils/theme";
 import { router } from "expo-router";
 import { PostCardProps } from "@/utils/types";
 

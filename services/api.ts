@@ -2,8 +2,10 @@ import axios from "axios";
 
 const API_URL = "https://gorest.co.in/public/v2";
 
-export const getPosts = async () => {
-  const response = await axios.get(`${API_URL}/posts`);
+export const getPosts = async (page: number, perPage: number) => {
+  const response = await axios.get(
+    `${API_URL}/posts?page=${page}&per_page=${perPage}`
+  );
   return response.data;
 };
 

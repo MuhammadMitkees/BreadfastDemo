@@ -3,10 +3,10 @@ import { Stack, usePathname } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import colors from "../utils/theme"; // Import the theme
+import colors from "../utils/theme";
 
 export default function RootLayout() {
-  const currentRoute = usePathname(); // Get the current route
+  const currentRoute = usePathname();
 
   if (currentRoute === "/") {
     return (
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 20,
     paddingBottom: 20,
-    backgroundColor: "transparent", // Ensure transparency
+    backgroundColor: "transparent",
   },
   headerText: {
     fontSize: 28,
@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 10,
-    backgroundColor: "transparent", // Ensure content area is transparent
+    backgroundColor: "transparent",
   },
   footer: {
     flexDirection: "row",
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderTopColor: colors.accent,
-    backgroundColor: "transparent", // Ensure transparency
+    backgroundColor: "transparent",
   },
   footerText: {
     fontSize: 14,
