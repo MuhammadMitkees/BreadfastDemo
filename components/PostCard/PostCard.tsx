@@ -35,12 +35,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, postlink }) => {
         router.navigate(postlink);
       }}
     >
-      <Image
-        source={{
-          uri: post.avatar_url || defaultAvatar,
-        }}
-        style={styles.avatar}
-      />
+      <View style={styles.avatarContainer}>
+        <Image
+          source={{
+            uri: post.avatar_url || defaultAvatar,
+          }}
+          style={styles.avatar}
+        />
+      </View>
       <View style={styles.content}>
         <Text style={styles.userName}>{userName}</Text>
         <Text style={styles.title}>{post.title}</Text>
@@ -54,40 +56,52 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "flex-start",
-    padding: 10,
+    padding: 15,
+    marginVertical: 12,
+    borderRadius: 16,
     backgroundColor: colors.surface,
-    marginVertical: 8,
-    borderRadius: 12,
-    shadowColor: colors.shadowColor || "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  avatarContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    overflow: "hidden",
+    borderColor: colors.accent,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.background,
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginTop: 15,
+    width: "100%",
+    height: "100%",
+    borderRadius: 30,
   },
   content: {
-    marginLeft: 10,
+    marginLeft: 15,
     flex: 1,
   },
   userName: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: colors.textPrimary,
+    marginBottom: 4,
   },
   title: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginTop: 4,
+    fontSize: 16,
+    fontWeight: "700",
     color: colors.textSecondary,
+    marginBottom: 8,
   },
   body: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 14,
     color: colors.textSecondary,
   },
 });
