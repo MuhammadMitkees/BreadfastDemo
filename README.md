@@ -1,51 +1,55 @@
-# Welcome to your Expo app 👋
+## BreadfastDemo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a demo project showcasing a simple social media application built with React Native, Expo, and TypeScript. The application features three main screens: a splash screen, a home screen displaying a list of posts, and a post details screen that shows detailed information about a post along with its comments. The application is wrapped by a layout component that includes a header and footer.
 
-## Get started
+# Getting Started
 
-1. Install dependencies
+To get started with this project, follow these steps:
 
-   ```bash
-   npm install
-   ```
+# Clone the Repository
 
-2. Start the app
+git clone https://github.com/MuhammadMitkees/BreadfastDemo.git
+cd BreadfastDemo
 
-   ```bash
-    npx expo start
-   ```
+# Install Dependencies and Run the Project
 
-In the output, you'll find options to open the app in a
+Ensure you have the latest version of Expo CLI installed, then run:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- npm install
+- npx expo start
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This will start the Expo development server. You can run the app on an emulator, simulator, or connected mobile device by scanning the QR code displayed in your terminal or browser.
 
-## Get a fresh project
+- to run unit test:
+- npm test
 
-When you're ready, run:
+# Screenshots
 
-```bash
-npm run reset-project
-```
+- Splash Screen
+  The splash screen is displayed when the app is first launched.
+  ![Splash Screen](./assets/images/screenshots/Screenshot%202024-08-25%20000927.png)
+- Home Screen
+  The home screen contains a list of rendered posts.
+  ![Home screen](./assets/images/screenshots/Screenshot%202024-08-24%20200102.png)
+  ![Home screen](./assets/images/screenshots/Screenshot%202024-08-24%20214522.png)
+- Post Details Screen
+  The post details screen displays the details of a selected post along with its comments.
+  ![Post details Screen](./assets/images/screenshots/Screenshot%202024-08-24%20200153.png)
+  ![Post details Screen](./assets/images/screenshots/Screenshot%202024-08-24%20214447.png)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# Project Structure
 
-## Learn more
+The project contains the following screens:
 
-To learn more about developing your project with Expo, look at the following resources:
+- Splash Screen: Shown when the app is launched, providing a branding image.
+- Home Screen: Displays a list of posts fetched from the server.
+- Post Details Screen: Shows detailed information about a selected post, including the post content and user comments.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Features
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# BreadfastDemo
+- Loader: A loader component is displayed while waiting for data to be fetched from the server.
+- Navigation: Navigation throughout the app is based on the Expo Router, providing a smooth and intuitive user experience.
+- Layout: The entire application is wrapped by a layout component from Expo, which includes a customizable header and footer.
+- Unit Testing: Unit tests are implemented using the Jest library to ensure the quality and reliability of the code.
+  ![unit tests succeded](./assets/images/screenshots/Screenshot%202024-08-24%20225319.png)
+- TypeScript: The project is developed using TypeScript, adding static typing and enhancing code quality.
